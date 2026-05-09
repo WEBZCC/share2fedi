@@ -35,27 +35,52 @@ appended if used later—handy!
 > consider self-hosting it**. Although it's free now, running my instance may
 > become too expensive for me in the future.
 
-## Hosting
+## Self-hosting
 
-### Vercel, Netlify, Cloudflare Pages
+> [!NOTE]  
+> Share₂Fedi is currently undergoing some transitions in regards to deployment.
+> The steps below are not yet stable. This will be fixed in v4.
 
-Share₂Fedi was designed to run on [Vercel](https://vercel.com/), but you can
-also run it on [Netlify](https://www.netlify.com/) or
-[Cloudflare Pages](https://pages.cloudflare.com/). To deploy it yourself (it's
-free!), you can use the following buttons:
+### Docker
 
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkytta%2Fshare2fedi)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/kytta/share2fedi)
+Share₂Fedi has an official container image that you can use with any OCI runner.
+For example, using Podman:
 
-To deploy to Cloudflare Pages, fork the repository and
-[follow the instructions](https://docs.astro.build/en/guides/deploy/cloudflare/#how-to-deploy-a-site-with-git).
+```sh
+podman run --detach --publish 127.0.0.1:9999:3000/tcp ghcr.io/kytta/share2fedi:4.0.0-alpha.0
+```
 
-### Host it yourself
+You can pull the image from:
 
-Self-hosting Share₂Fedi outside of SSR providers requires some extra setup:
+- Docker Hub: `kytta/share2fedi`
+- GHCR: `ghcr.io/kytta/share2fedi`
+- Quay: `quay.io/kytta/share2fedi`
 
-**Prerequisites:** modern Node.js (v18 is recommended), `pnpm`. You can host
-with Deno, but Node.js is still required to build Share₂Fedi.
+The app runs on port 3000, and the container exposes it. The example above
+publishes it as port 9999. Same configuration as a Compose file:
+
+```yaml
+services:
+  share2fedi:
+    image: ghcr.io/kytta/share2fedi:4.0.0-alpha.0
+    ports:
+      - "127.0.0.1:9999:3000/tcp"
+```
+
+It is **recommended** to run the app behind a reverse proxy. We won't go into
+detail here; you probably know what you're doing.
+
+Apart from versioned tags, there is also the `edge` tag, which is built from the
+latest commit on the main branch. It is _not recommended_ to use it, as it might
+contain bugs.
+
+### Bare metal
+
+You can host Share₂Fedi without Docker, but this requires some extra setup.
+
+**Prerequisites:** Node.js v24, `pnpm`.
+
+0. Clone the repository on the target machine, or download it as a tarball.
 
 1. Install dependencies.
 
@@ -69,15 +94,9 @@ with Deno, but Node.js is still required to build Share₂Fedi.
    pnpm build
    ```
 
-   If you want to use Deno, add the `--s2f-use-deno` flag:
-
-   ```sh
-   pnpm build --s2f-use-deno
-   ```
-
 3. Run server.
 
-   > By default, this will only listen on localhost port 3000. To enable
+   > By default, this will only listen on `localhost:3000`. To enable
    > listening on a certain host and/or port, set the `HOST` and `PORT`
    > environment variables, respectively.
 
@@ -95,15 +114,6 @@ with Deno, but Node.js is still required to build Share₂Fedi.
 
    > More information about self-hosting an Astro website with Node:
    > https://docs.astro.build/en/guides/integrations-guide/node/#standalone
-
-   If you've built Share₂Fedi for Deno:
-
-   ```sh
-   deno run --allow-net --allow-read --allow-env ./dist/server/entry.mjs
-   ```
-
-   > More information about self-hosting an Astro website with Deno:
-   > https://docs.astro.build/en/guides/integrations-guide/deno/#usage
 
 4. Set up a reverse proxy.
 
@@ -129,13 +139,6 @@ with Deno, but Node.js is still required to build Share₂Fedi.
    ```caddy
    reverse_proxy :3000
    ```
-
-### Docker
-
-If you _really_ have to use Docker, there is
-[a good guide on building Astro apps with Docker](https://docs.astro.build/en/recipes/docker/).
-**I will not** provide support for Docker-based deployments in the observable
-future.
 
 ## Contribute
 

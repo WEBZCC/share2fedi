@@ -27,8 +27,44 @@ official Docker images.
 
 ### ⚠️ BREAKING CHANGES
 
+- **Only support Node.js v24.**
+  From now on, only one Node.js version will be supported at a time.
+
 - **Deploying to Deno is no longer supported.**
   It _should_ still be possible to deploy it; read more under [contrib/deno](./contrib/deno/README.md)
+
+- **Deploying to Netlify is no longer supported.**
+  It _should_ still be possible to deploy it; read more under [contrib/netlify](./contrib/netlify/README.md)
+
+- **Deploying to Cloudflare Pages is no longer supported.**
+  It _should_ still be possible to deploy it; read more under [contrib/cloudflare](./contrib/cloudflare/README.md)
+
+- **Deploying to Vercel is no longer supported.**
+  It _should_ still be possible to deploy it; read more under [contrib/vercel](./contrib/vercel/README.md)
+
+### Added
+
+- **Sharkey** support (thx [solo](https://solonovamax.gay/)!)
+- **Official container image.**
+  You can now self-host Share2Fedi using Podman, Docker, or other OCI runner.
+  The images are published to [Docker Hub](https://hub.docker.com/r/kytta/share2fedi),
+  [GHCR](https://github.com/kytta/share2fedi/pkgs/container/share2fedi),
+  and [Quay.io](https://quay.io/kytta/share2fedi).
+
+### Fixed
+
+- fixed duplicate "on on GitHub" in some translations
+- multiple vulnerable dependencies were patched
+
+### Changed
+
+- updated dependencies
+  - now powered by Astro 6
+
+### Behind the scenes
+
+- automatic dependency updates now powered by Renovate instead of Dependabot
+- GitHub Actions are now locked by their commit hash
 
 ## [3.4.0] - 2025-10-28
 

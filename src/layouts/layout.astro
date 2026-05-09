@@ -12,7 +12,7 @@ import LanguageSelect from "@components/language-select.astro";
 import Licence from "@components/licence.html";
 import Privacy from "@components/privacy.html";
 
-import package_ from "../../package.json";
+import package_ from "../../package.json" with { type: "json" };
 ---
 
 <!doctype html>
@@ -118,8 +118,8 @@ import package_ from "../../package.json";
 				</li>
 				<li>
 					Misskey (<span data-translate="incl">incl.</span>&#x0020;<span
-						data-enumerate="Firefish,Calckey,FoundKey,Meisskey"
-						>Firefish, Calckey, FoundKey, Meisskey</span
+						data-enumerate="Firefish,Calckey,FoundKey,Meisskey,Sharkey"
+						>Firefish, Calckey, FoundKey, Meisskey, Sharkey</span
 					>)
 				</li>
 				<li>Friendica</li>
@@ -137,8 +137,7 @@ import package_ from "../../package.json";
 					href="https://github.com/kytta/share2fedi"
 					data-translate="onGitHub"
 					>on GitHub</a
-				>. Hosted with
-				<a href="https://vercel.com">Vercel</a>.
+				>.
 				<a
 					href="https://stats.uptimerobot.com/QOXj3uXPDX"
 					data-translate="statusPage"
